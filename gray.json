@@ -1,0 +1,6 @@
+{
+    "image_id": 0,
+    "filter": "grayscale",
+    "output_path": "images/grayscale.jpg",
+    "params": {"sigma": 1.5}
+}
