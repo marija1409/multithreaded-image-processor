@@ -176,7 +176,10 @@ class ImageRegistry:
                 except Exception as e:
                     message_queue.put(f"Error deleting file {image_to_delete.path}: {e}")
 
-            self.images = [img for img in self.images if img.image_id != image_id]
+            for index, image in enumerate(self.images):
+                if image.image_id == image_id:
+                    self.images[index] = None
+                    break
 
 
 
@@ -300,7 +303,8 @@ def list_command(image_registry, message_queue):
     images = image_registry.list_images()
     if images:
         for image in images:
-            message_queue.put(f"Image ID: {image.image_id}, Path: {image.path}")
+            if image is not None:
+                message_queue.put(f"Image ID: {image.image_id}, Path: {image.path}")
     else:
         message_queue.put("No images found!")
 
@@ -434,5 +438,3 @@ if __name__ == '__main__':
         message_thread.join()
         pool.close()
         pool.join()
-
-
